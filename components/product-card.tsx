@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import IconButton from "./icon-button";
 import { useCart } from "@/hooks/use-cart";
 import { Card, CardContent } from "./ui/card";
+import { getMediaUrl } from "@/lib/getMediaUrl";
 
 type ProductCardProps = {
   product: ProductType;
@@ -42,7 +43,7 @@ const ProductCard = (props: ProductCardProps) => {
 
           {product.images && product.images.length > 0 ? (
             <img
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${product.images[0].url}`}
+            src={getMediaUrl(product?.images?.[0]?.url)}
               alt={product.productName}
               className="max-h-[200px] w-auto object-contain"
             />

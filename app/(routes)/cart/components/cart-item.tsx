@@ -10,6 +10,13 @@ type CartItemProps = {
   item: ProductType;
 };
 
+const getMediaUrl = (url?: string | null) => {
+  if (!url) return "";
+  if (url.startsWith("http")) return url; // Cloudinary u otra URL absoluta
+  const base = process.env.NEXT_PUBLIC_BACKEND_URL || "";
+  return `${base}${url}`; // /uploads/...
+};
+
 export default function CartItem({ item }: CartItemProps) {
   const { removeItem, updateItemQuantity } = useCart();
 
@@ -17,7 +24,7 @@ export default function CartItem({ item }: CartItemProps) {
 
   const imageUrl =
     item.images && item.images.length > 0
-      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${item.images[0].url}`
+      ? getMediaUrl(item.images[0].url)
       : "";
 
   return (
@@ -39,17 +46,16 @@ export default function CartItem({ item }: CartItemProps) {
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="font-bold text-lg">{item.productName}</p>
-            
-            {/* --- AQUÍ ESTÁ EL CAMBIO: Badges de colores --- */}
+
+            {/* Badges */}
             <div className="flex gap-2 mt-1 mb-2 items-center">
-                <span className="px-2 py-1 text-xs font-medium text-white bg-black rounded-full dark:bg-white dark:text-black">
-                    {item.Taste}
-                </span>
-                <span className="px-2 py-1 text-xs font-medium text-white bg-yellow-900 rounded-full">
-                    {item.Origin}
-                </span>
+              <span className="px-2 py-1 text-xs font-medium text-white bg-black rounded-full dark:bg-white dark:text-black">
+                {item.Taste}
+              </span>
+              <span className="px-2 py-1 text-xs font-medium text-white bg-yellow-900 rounded-full">
+                {item.Origin}
+              </span>
             </div>
-            {/* ---------------------------------------------- */}
           </div>
 
           <p className="font-bold whitespace-nowrap text-lg">
@@ -69,9 +75,7 @@ export default function CartItem({ item }: CartItemProps) {
               <Minus size={14} />
             </Button>
 
-            <span className="min-w-[28px] text-center font-semibold">
-              {qty}
-            </span>
+            <span className="min-w-[28px] text-center font-semibold">{qty}</span>
 
             <Button
               variant="outline"
