@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
+import { getMediaUrl } from "@/lib/getMediaUrl";
 import { useGetFeaturedProducts } from "@/api/useGetFeaturedProducts";
 import { ResponseType } from "@/types/response";
 import {
@@ -45,7 +45,7 @@ const FeaturedProducts = () => {
                         {images && images.length > 0 ? (
                             /* Quitamos w-full y dejamos que la imagen mantenga su proporción natural */
                             <img
-                              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${images[0].url}`}
+                              src={getMediaUrl(images[0].url)} // <-- Usamos la función aquí
                               alt={productName}
                               className="max-h-[200px] w-auto object-contain"
                             />
