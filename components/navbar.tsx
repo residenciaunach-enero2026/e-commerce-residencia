@@ -81,7 +81,7 @@ const Navbar = () => {
         </button>
 
         {/* Tema */}
-        <ToggleTheme />
+       {/* <ToggleTheme /> */}
       </div>
     </div>
   );
