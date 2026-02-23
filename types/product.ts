@@ -4,11 +4,12 @@ export type ProductType = {
   documentId: string;
   productName: string;
   slug: string;
+  subtitle: string; // NUEVO
   description: string;
+  includes: any; // NUEVO (Depende de si usas Blocks o Rich Text)
+  note: string; // NUEVO
   active: boolean;
   isFeatured: boolean;
-  Taste: string;
-  Origin: string;
   price: number;
   images: {
     id: number;

@@ -10,8 +10,8 @@ import NextTopLoader from 'nextjs-toploader'; // Importación lista
 const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TarreDev E-commerce",
-  description: "Welcome to my e-commerce from TarreDev",
+  title: "VW Motors",
+  description: "Catálogo de servicios de mantenimiento para Volkswagen. Encuentra afinaciones, frenos y suspensión para tu vehículo. ¡Mantén tu Volkswagen en óptimas condiciones con nuestros servicios especializados!",
 };
 
 export default function RootLayout({

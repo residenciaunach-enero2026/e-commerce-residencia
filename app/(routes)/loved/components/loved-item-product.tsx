@@ -1,78 +1,61 @@
-"use client";
-
 /* eslint-disable @next/next/no-img-element */
 import { ProductType } from "@/types/product";
 import { useLovedProducts } from "@/hooks/use-loved-products";
-import { useCart } from "@/hooks/use-cart";
-import { Button } from "@/components/ui/button";
+import { getMediaUrl } from "@/lib/getMediaUrl";
+import WhatsAppModal from "@/components/whatsapp-modal";
+import IconButton from "@/components/icon-button";
 import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface LovedItemProductProps {
   product: ProductType;
 }
 
 const LovedItemProduct = ({ product }: LovedItemProductProps) => {
-  const router = useRouter();
+  // CORRECCIÓN: Usamos toggleLoveItem en lugar del inexistente removeItem
   const { toggleLoveItem } = useLovedProducts();
-  const { addItem } = useCart();
-
-  const addToCheckout = () => {
-    addItem(product);
-    toggleLoveItem(product); // quita de favoritos
-  };
-
-  const imageUrl =
-    product.images && product.images.length > 0
-      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${product.images[0].url}`
-      : "";
 
   return (
-    <li className="flex items-center justify-between gap-4 p-6 border-b">
-      <div
-        className="flex items-center gap-4 cursor-pointer"
-        onClick={() => router.push(`/product/${product.slug}`)}
-      >
-        <div className="w-24 h-24 bg-gray-50 rounded-md flex items-center justify-center overflow-hidden">
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={product.productName}
-              className="w-full h-full object-contain"
-            />
-          ) : (
-            <span className="text-xs text-gray-400">Sin imagen</span>
-          )}
-        </div>
-
-        <div>
-          <p className="font-semibold text-lg">{product.productName}</p>
-          
-          {/* AQUÍ ESTÁ EL CAMBIO: Reemplazamos el texto simple por los Badges */}
-          <div className="flex gap-2 mt-1 mb-2 items-center">
-             <p className="px-2 py-1 text-xs text-white bg-black rounded-full dark:bg-white dark:text-black w-fit">
-                {product.Taste}
-             </p>
-             <p className="px-2 py-1 text-xs text-white bg-yellow-900 rounded-full w-fit">
-                {product.Origin}
-             </p>
-          </div>
-
-          <p className="font-bold">{product.price.toFixed(2)} €</p>
-        </div>
+    <li className="flex py-6 border-b border-gray-200">
+      
+      <div className="relative h-24 w-24 rounded-md overflow-hidden sm:h-32 sm:w-32 bg-gray-50 flex items-center justify-center flex-shrink-0">
+        {product.images && product.images.length > 0 ? (
+          <img
+            src={getMediaUrl(product.images[0].url)}
+            alt={product.productName}
+            className="object-contain object-center w-full h-full p-2"
+          />
+        ) : (
+          <span className="text-xs text-gray-400">Sin imagen</span>
+        )}
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button onClick={addToCheckout}>Añadir al carrito</Button>
-
-        <button
-          type="button"
-          onClick={() => toggleLoveItem(product)}
-          className="p-2 rounded-md border hover:bg-gray-50 transition"
-          aria-label="Quitar de favoritos"
-        >
-          <X size={18} />
-        </button>
+      <div className="relative flex flex-1 flex-col justify-between ml-4 sm:ml-6">
+        
+        <div className="absolute z-10 right-0 top-0">
+          {/* CORRECCIÓN: Pasamos 'product' completo a toggleLoveItem */}
+          <IconButton onClick={() => toggleLoveItem(product)} icon={<X size={15} />} />
+        </div>
+        
+        <div className="pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+          <div>
+            <h3 className="text-lg font-bold text-gray-900 pr-4">{product.productName}</h3>
+            {product.subtitle && (
+                <p className="mt-1 text-sm text-gray-500">{product.subtitle}</p>
+            )}
+            <p className="mt-3 text-xl font-black">
+              ${product.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
+            </p>
+          </div>
+        </div>
+        
+        <div className="mt-4 sm:mt-0 flex items-center w-full sm:w-auto">
+            <WhatsAppModal 
+                product={product}
+                buttonText="Cotizar por WhatsApp"
+                buttonClasses="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-medium py-2 px-8 rounded-full shadow-sm transition-colors text-sm"
+            />
+        </div>
+        
       </div>
     </li>
   );

@@ -8,7 +8,7 @@ export default function Page() {
 
     return (
         <div className="max-w-4xl py-4 mx-auto sm:py-32 sm:px-24">
-            <h1 className="sm:text-2xl font-bold">Productos que te gustan</h1>
+            <h1 className="sm:text-2xl font-bold">Servicios Guardados</h1>
             <p className="text-gray-500 mb-5">Loved products</p>
             
             <div>

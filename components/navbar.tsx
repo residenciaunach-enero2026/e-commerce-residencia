@@ -1,27 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Heart, ShoppingCart, User } from "lucide-react";
+import { Heart, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import MenuList from "./menu-list";
 import ItemsMenuMobile from "./items-menu-mobile";
 import ToggleTheme from "./toggle-theme";
-import { useCart } from "@/hooks/use-cart";
 import { useLovedProducts } from "@/hooks/use-loved-products";
 
 const Navbar = () => {
   const router = useRouter();
-
-  const { items } = useCart();
   const { lovedItems } = useLovedProducts();
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const cartCount = items.reduce((acc, item) => acc + (item.quantity ?? 1), 0);
   const lovedCount = lovedItems.length;
-
-  const cartHasItems = mounted && cartCount > 0;
   const lovedHasItems = mounted && lovedCount > 0;
 
   return (
@@ -39,20 +33,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center justify-between gap-2 sm:gap-7">
-        {/* Carrito */}
-        <div className="relative" onClick={() => router.push("/cart")}>
-          <ShoppingCart
-            strokeWidth="1"
-            className={cartHasItems ? "text-black fill-black" : "text-black"}
-            fill={cartHasItems ? "black" : "none"}
-          />
-          {cartHasItems && (
-            <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-black text-white text-[11px] flex items-center justify-center">
-              {cartCount}
-            </span>
-          )}
-        </div>
-
+        
         {/* Favoritos */}
         <div className="relative" onClick={() => router.push("/loved")}>
           <Heart

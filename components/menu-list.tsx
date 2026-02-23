@@ -14,22 +14,22 @@ import {
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Café grano",
-    href: "/category/grano",
+    title: "Afinaciones",
+    href: "/category/afinacion",
     description:
-      "Granos de café enteros que requieren ser molidos antes de su preparación. Ideal para los amantes de la frescura.",
+      "Servicios de afinación básica y plus para mantener el motor de tu Volkswagen en óptimas condiciones.",
   },
   {
-    title: "Café molido",
-    href: "/category/molido",
+    title: "Frenos",
+    href: "/category/frenos",
     description:
-      "Café en forma de polvo listo para ser utilizado en diferentes métodos de preparación, como cafetera de filtro.",
+      "Mantenimiento preventivo y correctivo, cambio de balatas y rectificado de discos.",
   },
   {
-    title: "Café de cápsula",
-    href: "/category/capsula",
+    title: "Suspensión",
+    href: "/category/suspension",
     description:
-      "Café envasado en cápsulas individuales, ofreciendo conveniencia y consistencia en la preparación.",
+      "Servicio de amortiguadores, rótulas, alineación y balanceo para un manejo seguro y suave.",
   },
 ]
 
@@ -48,28 +48,28 @@ const MenuList = () => {
                     href="/"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      TarreDev
+                      Especialistas VW
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Sumergete en el apasionante mundo del café con nuestra selección de los mejores granos.
+                      Tu taller de confianza especializado en vehículos Volkswagen. Calidad alemana garantizada.
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/shop" title="Tienda">
-                Accede a toda tu información, pedidos y mucho más.
+              <ListItem href="/about" title="Nuestra Historia">
+                Conoce más sobre nuestro taller y nuestra pasión por los motores.
               </ListItem>
-              <ListItem href="/offers" title="Ofertas">
-                Sección dedicada a promociones y descuentos especiales.
+              <ListItem href="/faq" title="Preguntas Frecuentes">
+                Resuelve tus dudas sobre garantías, tiempos y cotizaciones.
               </ListItem>
-              <ListItem href="/accessories" title="Accesorios">
-                Productos complementarios como tazas, molinillos y filtros.
+              <ListItem href="/testimonials" title="Testimonios">
+                Descubre lo que dicen nuestros clientes satisfechos.
               </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Cafés</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Servicios</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
@@ -86,7 +86,7 @@ const MenuList = () => {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/accessories">Accesorios</Link>
+            <Link href="/blog">Blog</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -118,4 +118,3 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
-

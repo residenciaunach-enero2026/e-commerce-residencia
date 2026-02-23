@@ -6,26 +6,26 @@ import Autoplay from "embla-carousel-autoplay";
 export const dataCarouselTop = [
     {
         id: 1,
-        title: "Envío en 24/48 horas",
-        description: "Como cliente VIP, tus envíos en 24/48 horas. Obtén más información y únete",
+        title: "Especialistas en Volkswagen",
+        description: "Mantenimiento preventivo y correctivo con refacciones de la mejor calidad.",
         link: "#",
     },
     {
         id: 2,
-        title: "Consigue hasta un -25% en artículos seleccionados",
-        description: "Aprovecha nuestros descuentos de temporada.",
-        link: "#",
+        title: "Diagnóstico por escáner gratis",
+        description: "En la realización de cualquier paquete de afinación básica o plus.",
+        link: "/category/afinacion",
     },
     {
         id: 3,
-        title: "Devoluciones gratuitas",
-        description: "Si no te gusta, devuélvelo sin coste adicional.",
+        title: "Garantía en mano de obra",
+        description: "Todos nuestros servicios y refacciones cuentan con garantía por escrito en el taller.",
         link: "#",
     },
     {
         id: 4,
-        title: "Comprar novedades",
-        description: "Echa un vistazo a los últimos productos del catálogo.",
+        title: "Cotizaciones rápidas",
+        description: "Solicita información y agenda tu cita fácilmente a través de nuestro cotizador.",
         link: "#",
     }
 ]

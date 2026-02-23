@@ -4,7 +4,7 @@ import { useGetCategories } from "@/api/getProducts";
 import Link from "next/link";
 import { ResponseType } from "@/types/response";
 import { CategoryType } from "@/types/category";
-import { getMediaUrl } from "@/lib/getMediaUrl"; // <-- 1. Importamos la función
+import { getMediaUrl } from "@/lib/getMediaUrl";
 
 const ChooseCategory = () => {
   const { result, loading }: ResponseType = useGetCategories();
@@ -24,12 +24,17 @@ const ChooseCategory = () => {
               href={`/category/${category.slug}`}
               className="relative w-full max-w-[270px] mx-auto overflow-hidden bg-no-repeat bg-cover rounded-lg group"
             >
-              <img
-                // 2. Usamos getMediaUrl y el signo "?" de encadenamiento opcional
-                src={getMediaUrl(category.mainImage?.url)} 
-                alt={category.categoryName}
-                className="w-full h-[320px] object-cover transition duration-300 ease-in-out rounded-lg group-hover:scale-110"
-              />
+              {category.mainImage?.url ? (
+                <img
+                  src={getMediaUrl(category.mainImage.url)}
+                  alt={category.categoryName}
+                  className="w-full h-[320px] object-cover transition duration-300 ease-in-out rounded-lg group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-[320px] bg-gray-200 flex items-center justify-center text-gray-500 transition duration-300 ease-in-out rounded-lg group-hover:scale-110">
+                  Sin imagen
+                </div>
+              )}
               <p className="absolute w-full py-2 text-lg font-bold text-center text-white bottom-5 backdrop-blur-lg">
                 {category.categoryName}
               </p>
