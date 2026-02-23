@@ -42,10 +42,7 @@ export default function WhatsAppModal({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Limpia SOLO espacios/tabs (no toca saltos de línea)
   const cleanInline = (value: string) => value.replace(/[ \t]+/g, " ").trim();
-
-  // Para textarea: conserva \n, pero limpia espacios por línea
   const cleanMultiline = (value: string) =>
     value
       .split("\n")
@@ -53,14 +50,13 @@ export default function WhatsAppModal({
       .join("\n")
       .trim();
 
-  // Emojis en Unicode escape (esto evita los "�" aunque tu archivo no esté en UTF-8)
   const EMOJI = {
-    wave: "\u{1F44B}", // 👋
-    person: "\u{1F464}", // 👤
-    phone: "\u{1F4F1}", // 📱
-    car: "\u{1F697}", // 🚗
-    calendar: "\u{1F4C5}", // 📅
-    speech: "\u{1F4AC}", // 💬
+    wave: "\u{1F44B}",
+    person: "\u{1F464}",
+    phone: "\u{1F4F1}",
+    car: "\u{1F697}",
+    calendar: "\u{1F4C5}",
+    speech: "\u{1F4AC}",
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -68,36 +64,26 @@ export default function WhatsAppModal({
 
     const phoneNumber = "529651386865";
 
-    const serviceSafe = cleanInline(nombreServicio);
-    const nombreSafe = cleanInline(formData.nombre);
-    const telSafe = cleanInline(formData.telefono);
-    const modeloSafe = cleanInline(formData.modelo);
-    const anioSafe = cleanInline(formData.anio);
-    const comentariosSafe = cleanMultiline(formData.comentarios);
-
-    // Mensaje con saltos reales
     const message = [
       `¡Hola JuanDev! ${EMOJI.wave}`,
       ``,
-      `Me interesa cotizar el servicio de: *${serviceSafe}*.`,
+      `Me interesa cotizar el servicio de: *${cleanInline(nombreServicio)}*.`,
       ``,
       `*Datos del cliente y vehículo:*`,
-      `${EMOJI.person} Nombre: ${nombreSafe}`,
-      `${EMOJI.phone} Teléfono: ${telSafe}`,
-      `${EMOJI.car} Modelo VW: ${modeloSafe}`,
-      `${EMOJI.calendar} Año: ${anioSafe}`,
+      `${EMOJI.person} Nombre: ${cleanInline(formData.nombre)}`,
+      `${EMOJI.phone} Teléfono: ${cleanInline(formData.telefono)}`,
+      `${EMOJI.car} Modelo VW: ${cleanInline(formData.modelo)}`,
+      `${EMOJI.calendar} Año: ${cleanInline(formData.anio)}`,
       ``,
       `${EMOJI.speech} *Descripción del problema:*`,
-      `${comentariosSafe}`,
+      `${cleanMultiline(formData.comentarios)}`,
       ``,
       `¿Podrían darme más información y agendar una revisión?`,
     ].join("\n");
 
     const encodedMessage = encodeURIComponent(message);
 
-    // Para WhatsApp Web directo (evita algunos redirects de wa.me)
     const url = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
-
     window.open(url, "_blank");
   };
 
@@ -107,7 +93,8 @@ export default function WhatsAppModal({
         <Button className={buttonClasses}>{buttonText}</Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] bg-white rounded-3xl border-0 shadow-2xl">
+      {/* ✅ AQUÍ ESTÁ EL CAMBIO: MÁS ANCHO */}
+      <DialogContent className="w-[92vw] max-w-[560px] sm:max-w-[620px] bg-white rounded-3xl border-0 shadow-2xl p-8">
         <DialogHeader>
           <DialogTitle className="text-2xl font-black flex items-center gap-2 text-gray-900">
             <Wrench className="text-gray-700" size={24} />
