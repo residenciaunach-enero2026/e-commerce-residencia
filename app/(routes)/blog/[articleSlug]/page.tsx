@@ -17,7 +17,7 @@ export default function ArticlePage() {
     const fetchArticle = async () => {
       try {
         // Buscamos en Strapi el artículo que coincida exactamente con el slug de la URL
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs?filters[slug][$eq]=${articleSlug}&populate=*`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles?filters[slug][$eq]=${articleSlug}&populate=*`);
         const json = await res.json();
 
         // Strapi devuelve un arreglo al filtrar, así que tomamos el primer resultado [0]

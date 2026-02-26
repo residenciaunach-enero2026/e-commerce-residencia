@@ -14,7 +14,7 @@ export default function BlogPage() {
       try {
         // Hacemos la petición a la colección 'blogs' de tu Strapi en Render
         // populate=* sirve para traernos las imágenes de Cloudinary también
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs?populate=*`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles?populate=*`);
         const json = await res.json();
         
         // Guardamos los datos reales en el estado
