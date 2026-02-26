@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 
 export default function ArticlePage() {
   const params = useParams();
@@ -16,11 +17,9 @@ export default function ArticlePage() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        // Buscamos en Strapi el artículo que coincida exactamente con el slug de la URL
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles?filters[slug][$eq]=${articleSlug}&populate=*`);
         const json = await res.json();
 
-        // Strapi devuelve un arreglo al filtrar, así que tomamos el primer resultado [0]
         if (json.data && json.data.length > 0) {
           setArticle(json.data[0]);
         }
@@ -44,16 +43,11 @@ export default function ArticlePage() {
     return <div className="max-w-4xl mx-auto py-12 px-4 text-center text-xl font-bold text-red-500">Artículo no encontrado</div>;
   }
 
-  // Extraemos los datos (soportando diferentes versiones de Strapi)
-  const { title, content, coverImage } = article.attributes || article;
+  // Corrección de mayúsculas/minúsculas también aplicada aquí
+  const { Title, title, content, coverImage } = article.attributes || article;
+  const tituloFinal = Title || title;
   
-  // Obtenemos la URL de la imagen de Cloudinary (si subiste una)
   const imageUrl = coverImage?.data?.attributes?.url || coverImage?.url || null;
-
-  // Manejo básico del contenido para que no rompa la página
-  const renderContent = typeof content === 'string' 
-    ? content 
-    : "El contenido está en formato de bloques de Strapi. Necesitamos un renderizador especial para verlo bien.";
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-8">
@@ -65,18 +59,22 @@ export default function ArticlePage() {
       <div className="mb-10 border-b pb-8">
         <span className="text-sm font-bold text-gray-500 uppercase tracking-wider">Tips Volkswagen</span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mt-3 mb-4 leading-tight">
-          {title}
+          {tituloFinal}
         </h1>
       </div>
       
       {imageUrl && (
         <div className="mb-10 rounded-2xl overflow-hidden shadow-lg border">
-          <img src={imageUrl} alt={title} className="w-full h-auto object-cover max-h-[500px]" />
+          <img src={imageUrl} alt={tituloFinal} className="w-full h-auto object-cover max-h-[500px]" />
         </div>
       )}
       
       <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
-        {renderContent}
+        {Array.isArray(content) ? (
+          <BlocksRenderer content={content} />
+        ) : (
+          <p>{content}</p> 
+        )}
       </div>
 
       <div className="mt-16 pt-8 border-t flex justify-center">

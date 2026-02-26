@@ -12,12 +12,9 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // Hacemos la petición a la colección 'blogs' de tu Strapi en Render
-        // populate=* sirve para traernos las imágenes de Cloudinary también
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles?populate=*`);
         const json = await res.json();
         
-        // Guardamos los datos reales en el estado
         setArticles(json.data || []);
       } catch (error) {
         console.error("Error al cargar el blog:", error);
@@ -43,12 +40,13 @@ export default function BlogPage() {
           <p className="text-gray-500 text-lg">No hay artículos publicados aún.</p>
         ) : (
           articles.map((article: any) => {
-            // Dependiendo de tu versión de Strapi, los datos vienen directos o dentro de "attributes"
-            const { title, excerpt, slug } = article.attributes || article;
+            // Corrección de mayúsculas/minúsculas aplicada aquí
+            const { Title, title, excerpt, slug } = article.attributes || article;
+            const tituloFinal = Title || title; // Toma el que encuentre en Strapi
             
             return (
               <div key={article.id} className="border border-gray-200 dark:border-gray-700 rounded-2xl p-6 hover:shadow-lg transition-all bg-white dark:bg-gray-800 flex flex-col">
-                <h2 className="text-xl font-bold mb-3 line-clamp-2 dark:text-white">{title}</h2>
+                <h2 className="text-xl font-bold mb-3 line-clamp-2 dark:text-white">{tituloFinal}</h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-6 flex-grow">{excerpt}</p>
                 <Link 
                   href={`/blog/${slug}`} 
