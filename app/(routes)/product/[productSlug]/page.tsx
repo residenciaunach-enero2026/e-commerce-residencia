@@ -5,6 +5,7 @@ import { useGetProductBySlug } from "@/api/getProductBySlug";
 import CarouselProduct from "./components/carousel-product";
 import InfoProduct from "./components/info-product";
 import SkeletonProduct from "./components/skeleton-product";
+import Testimonials from "./components/testimonials";
 
 export default function Page() {
   const params = useParams() as { productSlug?: string | string[] };
@@ -39,6 +40,8 @@ export default function Page() {
         </div>
 
       </div>
+
+      <Testimonials />
     </div>
   );
 }
