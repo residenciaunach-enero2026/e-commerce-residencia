@@ -1,5 +1,12 @@
 import { useGetTestimonials } from "@/api/getTestimonials";
 import { Star } from "lucide-react";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Testimonials() {
     const { result: testimonials, loading, error } = useGetTestimonials();
@@ -19,33 +26,41 @@ export default function Testimonials() {
                 <div className="w-16 h-1 mt-3 bg-blue-600 rounded-full"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                {displayedTestimonials.map((testimonial) => (
-                    <div
-                        key={testimonial.id}
-                        className="flex flex-col bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
-                    >
-                        <div className="flex gap-1 mb-3">
-                            {[...Array(5)].map((_, i) => (
-                                <Star
-                                    key={i}
-                                    size={18}
-                                    className={i < (testimonial.rating || 5) ? "fill-yellow-400 text-yellow-400" : "fill-gray-100 text-gray-200"}
-                                />
-                            ))}
-                        </div>
+            <Carousel opts={{ align: "start", loop: true }} className="w-full max-w-5xl mx-auto">
+                <CarouselContent className="">
+                    {testimonials.map((testimonial) => (
+                        <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/2 pl-4 px-2">
+                            <div className="h-full p-1">
+                                <div className="flex flex-col h-full bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="flex gap-1 mb-3 shrink-0">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                size={18}
+                                                className={i < (testimonial.rating || 5) ? "fill-yellow-400 text-yellow-400" : "fill-gray-100 text-gray-200"}
+                                            />
+                                        ))}
+                                    </div>
 
-                        <blockquote className="flex-1 mt-2 text-gray-700 italic text-base leading-relaxed">
-                            "{testimonial.review}"
-                        </blockquote>
+                                    <blockquote className="flex-1 mt-2 text-gray-700 italic text-base leading-relaxed">
+                                        "{testimonial.review}"
+                                    </blockquote>
 
-                        <div className="flex flex-col mt-6 pt-6 border-t border-gray-50">
-                            <span className="font-bold text-gray-900">{testimonial.customerName}</span>
-                            <span className="text-sm text-gray-500 font-medium">Dueño de {testimonial.carModel}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                                    <div className="flex flex-col shrink-0 mt-6 pt-6 border-t border-gray-50">
+                                        <span className="font-bold text-gray-900">{testimonial.customerName}</span>
+                                        <span className="text-sm text-gray-500 font-medium">Dueño de {testimonial.carModel}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+
+                <div className="flex items-center justify-center gap-4 mt-8 hidden sm:flex">
+                    <CarouselPrevious className="static translate-y-0 translate-x-0 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
+                    <CarouselNext className="static translate-y-0 translate-x-0 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
+                </div>
+            </Carousel>
         </div>
     );
 }
