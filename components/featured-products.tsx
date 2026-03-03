@@ -85,7 +85,7 @@ const FeaturedProducts = () => {
                         <div className="mt-auto pt-2">
                           <p className="text-xl font-black text-black">
                             <span className="text-sm font-semibold text-gray-500 mr-1 block sm:inline">Desde</span>
-                            ${product.variants?.[0]?.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
+                            ${(product.variants?.[0]?.Price ?? product.variants?.[0]?.price ?? 0).toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
                           </p>
                         </div>
                       </div>

@@ -1,7 +1,8 @@
 export type VariantType = {
   id: number;
   name: string;
-  price: number;
+  price?: number;
+  Price?: number;
   includes: any;
 };
 

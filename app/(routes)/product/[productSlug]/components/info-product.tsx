@@ -90,7 +90,7 @@ const InfoProduct = (props: InfoProductProps) => {
 
   // En caso de que el producto no tenga variantes por alguna razón, podríamos tener un fallback.
   // Pero en el nuevo schema, todo debe venir en variantes.
-  const displayPrice = selectedVariant?.price || 0;
+  const displayPrice = selectedVariant?.Price || selectedVariant?.price || 0;
   const includes = selectedVariant?.includes ? parseIncludesToList(selectedVariant.includes) : null;
 
   return (
