@@ -25,10 +25,10 @@ const ProductCard = (props: ProductCardProps) => {
     >
       {/* 2. flex flex-col h-full permite que la tarjeta estire sus elementos internos */}
       <Card className="border border-gray-100 shadow-none rounded-xl overflow-hidden bg-white flex flex-col h-full">
-        
+
         {/* 3. Aumentamos a min-h-[240px] para dar más verticalidad a la imagen */}
         <CardContent className="relative flex items-center justify-center p-4 min-h-[240px] bg-gray-50/50 flex-shrink-0">
-          
+
           {product.images && product.images.length > 0 ? (
             <img
               src={getMediaUrl(product?.images?.[0]?.url)}
@@ -63,12 +63,12 @@ const ProductCard = (props: ProductCardProps) => {
 
         {/* 4. flex-grow hace que este contenedor ocupe todo el espacio sobrante hacia abajo */}
         <div className="px-5 py-6 space-y-2 flex flex-col flex-grow">
-          
+
           {/* 5. text-base (más chico), min-h-[3rem] (fuerza la altura de 2 líneas) y line-clamp-2 */}
           <h3 className="text-base font-bold text-gray-900 line-clamp-2 min-h-[3rem]">
             {product.productName}
           </h3>
-          
+
           {product.subtitle && (
             <p className="text-xs text-gray-500 font-medium line-clamp-1">
               {product.subtitle}
@@ -78,7 +78,8 @@ const ProductCard = (props: ProductCardProps) => {
           {/* 6. mt-auto empuja el precio hasta la base de la tarjeta para que todas se alineen */}
           <div className="mt-auto pt-2">
             <p className="text-xl font-black text-black">
-              ${product.price.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
+              <span className="text-sm font-semibold text-gray-500 mr-1 block sm:inline">Desde</span>
+              ${product.variants?.[0]?.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
             </p>
           </div>
         </div>

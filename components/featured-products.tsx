@@ -26,14 +26,14 @@ const FeaturedProducts = () => {
   return (
     <div className="max-w-6xl py-4 mx-auto sm:py-16 sm:px-24">
       <h3 className="px-6 text-3xl sm:pb-8">Servicios destacados</h3>
-      
+
       <Carousel opts={{ align: "start", loop: true }}>
         <CarouselContent className="-ml-2 md:-ml-4">
           {loading && <SkeletonSchema grid={3} />}
-          
+
           {result !== null &&
             result.slice(0, 10).map((product: ProductType) => {
-              const { id, slug, images, productName, subtitle, price } = product;
+              const { id, slug, images, productName, subtitle } = product;
 
               return (
                 <CarouselItem
@@ -42,20 +42,20 @@ const FeaturedProducts = () => {
                 >
                   <div className="p-1 h-full">
                     <Card className="py-4 border border-gray-200 shadow-none flex flex-col h-full">
-                      
+
                       <CardContent className="relative flex items-center justify-center px-6 py-2 min-h-[240px] flex-shrink-0">
                         {images && images.length > 0 ? (
-                            <img
-                              src={getMediaUrl(images[0].url)}
-                              alt={productName}
-                              className="max-h-[190px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                            />
+                          <img
+                            src={getMediaUrl(images[0].url)}
+                            alt={productName}
+                            className="max-h-[190px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                          />
                         ) : (
-                            <div className="w-full h-[190px] bg-gray-100 flex items-center justify-center rounded-md">
-                                <span className="text-gray-400 text-sm">Sin imagen</span>
-                            </div>
+                          <div className="w-full h-[190px] bg-gray-100 flex items-center justify-center rounded-md">
+                            <span className="text-gray-400 text-sm">Sin imagen</span>
+                          </div>
                         )}
-                        
+
                         <div className="absolute w-full px-6 transition duration-200 opacity-0 group-hover:opacity-100 bottom-5">
                           <div className="flex justify-center gap-x-6">
                             <IconButton
@@ -75,7 +75,7 @@ const FeaturedProducts = () => {
                         <h3 className="text-base font-bold text-gray-900 line-clamp-2 min-h-[3rem]">
                           {productName}
                         </h3>
-                        
+
                         {subtitle && (
                           <p className="text-xs text-gray-500 font-medium line-clamp-1">
                             {subtitle}
@@ -84,7 +84,8 @@ const FeaturedProducts = () => {
 
                         <div className="mt-auto pt-2">
                           <p className="text-xl font-black text-black">
-                            ${price.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
+                            <span className="text-sm font-semibold text-gray-500 mr-1 block sm:inline">Desde</span>
+                            ${product.variants?.[0]?.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
                           </p>
                         </div>
                       </div>

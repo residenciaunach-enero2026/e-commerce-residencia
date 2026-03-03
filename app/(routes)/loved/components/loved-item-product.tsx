@@ -16,7 +16,7 @@ const LovedItemProduct = ({ product }: LovedItemProductProps) => {
 
   return (
     <li className="flex py-6 border-b border-gray-200">
-      
+
       <div className="relative h-24 w-24 rounded-md overflow-hidden sm:h-32 sm:w-32 bg-gray-50 flex items-center justify-center flex-shrink-0">
         {product.images && product.images.length > 0 ? (
           <img
@@ -30,32 +30,32 @@ const LovedItemProduct = ({ product }: LovedItemProductProps) => {
       </div>
 
       <div className="relative flex flex-1 flex-col justify-between ml-4 sm:ml-6">
-        
+
         <div className="absolute z-10 right-0 top-0">
           {/* CORRECCIÓN: Pasamos 'product' completo a toggleLoveItem */}
           <IconButton onClick={() => toggleLoveItem(product)} icon={<X size={15} />} />
         </div>
-        
+
         <div className="pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
           <div>
             <h3 className="text-lg font-bold text-gray-900 pr-4">{product.productName}</h3>
             {product.subtitle && (
-                <p className="mt-1 text-sm text-gray-500">{product.subtitle}</p>
+              <p className="mt-1 text-sm text-gray-500">{product.subtitle}</p>
             )}
             <p className="mt-3 text-xl font-black">
-              ${product.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
+              Desde ${product.variants?.[0]?.price?.toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
             </p>
           </div>
         </div>
-        
+
         <div className="mt-4 sm:mt-0 flex items-center w-full sm:w-auto">
-            <WhatsAppModal 
-                product={product}
-                buttonText="Cotizar por WhatsApp"
-                buttonClasses="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-medium py-2 px-8 rounded-full shadow-sm transition-colors text-sm"
-            />
+          <WhatsAppModal
+            product={product}
+            buttonText="Cotizar por WhatsApp"
+            buttonClasses="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-medium py-2 px-8 rounded-full shadow-sm transition-colors text-sm"
+          />
         </div>
-        
+
       </div>
     </li>
   );

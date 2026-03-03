@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import SkeletonSchema from "@/components/skeletonSchema";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { ArticleType } from "@/types/article";
 
 export default function BlogPage() {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function BlogPage() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles?populate=*`);
         const json = await res.json();
-        
+
         setArticles(json.data || []);
       } catch (error) {
         console.error("Error al cargar el blog:", error);
@@ -39,17 +40,26 @@ export default function BlogPage() {
         ) : articles.length === 0 ? (
           <p className="text-gray-500 text-lg">No hay artículos publicados aún.</p>
         ) : (
-          articles.map((article: any) => {
-            // Corrección de mayúsculas/minúsculas aplicada aquí
-            const { Title, title, excerpt, slug } = article.attributes || article;
-            const tituloFinal = Title || title; // Toma el que encuentre en Strapi
-            
+          articles.map((article: ArticleType) => {
+            // Compatibilidad por si el backend devuelve con/sin wrap "attributes"
+            const attributes = (article as any).attributes || article;
+            const tituloFinal = attributes.Title || attributes.title;
+            const excerpt = attributes.excerpt;
+            const slug = attributes.slug;
+            const author = attributes.author;
+            const readTime = attributes.readTime;
+
             return (
               <div key={article.id} className="border border-gray-200 dark:border-gray-700 rounded-2xl p-6 hover:shadow-lg transition-all bg-white dark:bg-gray-800 flex flex-col">
+                <div className="mb-3 text-xs font-semibold text-gray-500 flex items-center gap-2">
+                  {author && <span className="text-gray-700 font-bold dark:text-gray-300">Por {author}</span>}
+                  {author && readTime && <span>•</span>}
+                  {readTime && <span>{readTime} min de lectura</span>}
+                </div>
                 <h2 className="text-xl font-bold mb-3 line-clamp-2 dark:text-white">{tituloFinal}</h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-6 flex-grow">{excerpt}</p>
-                <Link 
-                  href={`/blog/${slug}`} 
+                <Link
+                  href={`/blog/${slug}`}
                   className={buttonVariants({ variant: "outline", className: "w-full dark:text-white dark:hover:text-black" })}
                 >
                   Leer artículo completo

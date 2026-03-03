@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ProductType } from "@/types/product";
 import { useLovedProducts } from "@/hooks/use-loved-products";
 import { Separator } from "@/components/ui/separator";
@@ -41,11 +42,56 @@ const parseStrapiText = (textData: any) => {
   return "";
 };
 
+const parseIncludesToList = (includes: any) => {
+  const raw = parseStrapiText(includes).trim();
+  if (!raw) return null;
+
+  const lines = raw
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => l.replace(/^•\s*/, ""));
+
+  if (lines.length === 0) return null;
+
+  let title = "¿Qué incluye?";
+  let startIndex = 0;
+
+  const first = lines[0].toLowerCase();
+  if (first.includes("qué incluye")) {
+    title = lines[0].replace(/[:：]\s*$/, "");
+    startIndex = 1;
+  }
+
+  const items = lines
+    .slice(startIndex)
+    .map((x) => x.replace(/\s+\.$/, ".").trim())
+    .filter(Boolean);
+
+  if (items.length === 0 && startIndex === 0) {
+    return { title, items: [raw.replace(/^(¿\s*)?qué incluye\??\s*[:：]\s*/i, "")] };
+  }
+
+  return { title, items };
+};
+
 const InfoProduct = (props: InfoProductProps) => {
   const { product } = props;
   const { toggleLoveItem, lovedItems } = useLovedProducts();
 
+  const hasVariants = product.variants && product.variants.length > 0;
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    hasVariants ? product.variants[0].id : null
+  );
+
   const isLoved = lovedItems.some((item) => item.id === product.id);
+
+  const selectedVariant = hasVariants ? product.variants.find(v => v.id === selectedVariantId) : null;
+
+  // En caso de que el producto no tenga variantes por alguna razón, podríamos tener un fallback.
+  // Pero en el nuevo schema, todo debe venir en variantes.
+  const displayPrice = selectedVariant ? selectedVariant.price : 0;
+  const includes = selectedVariant?.includes ? parseIncludesToList(selectedVariant.includes) : null;
 
   return (
     <div className="px-6">
@@ -65,34 +111,63 @@ const InfoProduct = (props: InfoProductProps) => {
         {parseStrapiText(product.description)}
       </p>
 
-      {/* Includes en móvil (si lo sigues usando así) */}
-      {product.includes && (
-        <div className="my-4 sm:hidden">
-          <p className="text-gray-700 text-sm whitespace-pre-line">
-            {parseStrapiText(product.includes)}
-          </p>
+      <Separator className="my-4" />
+
+      {/* Selector de Variantes */}
+      {hasVariants && (
+        <div className="my-6">
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">Elige tu variante:</h3>
+          <div className="flex flex-wrap gap-3">
+            {product.variants.map((variant) => (
+              <button
+                key={variant.id}
+                onClick={() => setSelectedVariantId(variant.id)}
+                className={`px-5 py-2.5 rounded-xl font-bold text-sm border-2 transition-all duration-200 ${selectedVariantId === variant.id
+                    ? "bg-black text-white border-black shadow-md scale-[1.02]"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                  }`}
+              >
+                {variant.name}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
-      <Separator className="my-4" />
-
-      <p className="my-4 text-2xl font-bold">
-        ${product.price.toFixed(2)} MXN
+      <p className="my-4 text-3xl font-extrabold text-gray-900">
+        ${displayPrice.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-lg font-medium text-gray-500">MXN</span>
       </p>
 
       {product.note && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
-          <p>*{parseStrapiText(product.note)}</p>
+        <div className="mb-6 p-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-lg text-sm flex items-start">
+          <span className="mr-2">ℹ️</span>
+          <p>{parseStrapiText(product.note)}</p>
         </div>
       )}
 
-      <div className="flex items-center gap-5 mt-6">
-        {/* ✅ BOTÓN QUE ABRE MODAL Y ENVÍA A WHATSAPP (con productName correcto) */}
-        <div className="w-full">
+      {/* "¿Qué incluye?" - Integrado en el InfoProduct */}
+      {includes && (
+        <div className="my-6 p-5 bg-gray-50 rounded-xl border border-gray-100">
+          <h4 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider">{includes.title}</h4>
+          <ul className="space-y-2">
+            {includes.items.map((item, idx) => (
+              <li key={idx} className="flex items-start text-sm text-gray-700">
+                <span className="text-green-500 mr-2 mt-0.5">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="flex items-center gap-4 mt-8">
+        {/* ✅ BOTÓN QUE ABRE MODAL Y ENVÍA A WHATSAPP */}
+        <div className="flex-1">
           <WhatsAppModal
             product={product}
-            buttonText="Solicitar información"
-            buttonClasses="w-full h-12 text-base !bg-[#111827] hover:!bg-[#0b1220] !text-white shadow-md"
+            selectedVariantName={selectedVariant?.name}
+            buttonText="Agendar Servicio por WhatsApp"
+            buttonClasses="w-full h-14 text-base font-bold !bg-[#25D366] hover:!bg-[#128C7E] !text-white rounded-xl shadow-lg transition-all hover:scale-[1.02]"
           />
         </div>
 
@@ -100,12 +175,13 @@ const InfoProduct = (props: InfoProductProps) => {
         <button
           type="button"
           onClick={() => toggleLoveItem(product)}
-          className="h-12 w-12 rounded-xl border flex items-center justify-center hover:bg-gray-50 transition"
+          className={`h-14 w-14 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${isLoved ? "border-red-500 bg-red-50" : "border-gray-200 hover:bg-gray-50 hover:border-gray-300"
+            }`}
           aria-label="Añadir a favoritos"
         >
           <Heart
-            size={22}
-            className={isLoved ? "fill-black text-black" : "text-black"}
+            size={24}
+            className={isLoved ? "fill-red-500 text-red-500" : "text-gray-400"}
           />
         </button>
       </div>

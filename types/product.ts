@@ -1,16 +1,21 @@
-export type ProductType = { 
+export type VariantType = {
+  id: number;
+  name: string;
+  price: number;
+  includes: any;
+};
+
+export type ProductType = {
   quantity?: number;
   id: number;
   documentId: string;
   productName: string;
   slug: string;
-  subtitle: string; // NUEVO
+  subtitle: string;
   description: string;
-  includes: any; // NUEVO (Depende de si usas Blocks o Rich Text)
-  note: string; // NUEVO
+  note: string;
   active: boolean;
   isFeatured: boolean;
-  price: number;
   images: {
     id: number;
     documentId: string;
@@ -22,4 +27,5 @@ export type ProductType = {
     categoryName: string;
     slug: string;
   };
+  variants: VariantType[];
 };

@@ -17,12 +17,14 @@ import { Car, Calendar, User, Phone, Wrench } from "lucide-react";
 
 interface WhatsAppModalProps {
   product?: ProductType;
+  selectedVariantName?: string;
   buttonText?: string;
   buttonClasses?: string;
 }
 
 export default function WhatsAppModal({
   product,
+  selectedVariantName,
   buttonText = "Cotizar por WhatsApp",
   buttonClasses = "w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-6 shadow-lg transition-all hover:scale-[1.02] mt-6",
 }: WhatsAppModalProps) {
@@ -34,7 +36,8 @@ export default function WhatsAppModal({
     comentarios: "",
   });
 
-  const nombreServicio = product?.productName || "este servicio";
+  const baseName = product?.productName || "este servicio";
+  const nombreServicio = selectedVariantName ? `${baseName} - ${selectedVariantName}` : baseName;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
