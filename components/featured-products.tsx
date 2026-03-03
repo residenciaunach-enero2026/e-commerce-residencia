@@ -77,16 +77,15 @@ const FeaturedProducts = () => {
                         </h3>
 
                         {subtitle && (
-                          <p className="text-xs text-gray-500 font-medium line-clamp-1">
+                          <p className="text-xs text-gray-500 font-medium line-clamp-1 mb-4">
                             {subtitle}
                           </p>
                         )}
 
-                        <div className="mt-auto pt-2">
-                          <p className="text-xl font-black text-black">
-                            <span className="text-sm font-semibold text-gray-500 mr-1 block sm:inline">Desde</span>
-                            ${(product.variants?.[0]?.Price ?? product.variants?.[0]?.price ?? 0).toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
-                          </p>
+                        <div className="mt-auto pt-2 pb-2">
+                          <span className="inline-block w-full text-center bg-gray-900 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-colors group-hover:bg-blue-600">
+                            Ver más detalles
+                          </span>
                         </div>
                       </div>
 

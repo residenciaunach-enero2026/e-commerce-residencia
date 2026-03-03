@@ -75,12 +75,11 @@ const ProductCard = (props: ProductCardProps) => {
             </p>
           )}
 
-          {/* 6. mt-auto empuja el precio hasta la base de la tarjeta para que todas se alineen */}
-          <div className="mt-auto pt-2">
-            <p className="text-xl font-black text-black">
-              <span className="text-sm font-semibold text-gray-500 mr-1 block sm:inline">Desde</span>
-              ${(product.variants?.[0]?.Price ?? product.variants?.[0]?.price ?? 0).toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
-            </p>
+          {/* 6. CTA button replaces the price for catalog view */}
+          <div className="mt-auto pt-4 pb-1">
+            <span className="inline-block w-full text-center bg-gray-900 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-colors group-hover:bg-blue-600">
+              Ver más detalles
+            </span>
           </div>
         </div>
       </Card>

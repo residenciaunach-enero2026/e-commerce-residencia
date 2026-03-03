@@ -42,9 +42,6 @@ const LovedItemProduct = ({ product }: LovedItemProductProps) => {
             {product.subtitle && (
               <p className="mt-1 text-sm text-gray-500">{product.subtitle}</p>
             )}
-            <p className="mt-3 text-xl font-black">
-              Desde ${(product.variants?.[0]?.Price ?? product.variants?.[0]?.price ?? 0).toFixed(2)} <span className="text-xs font-normal text-gray-500">MXN</span>
-            </p>
           </div>
         </div>
 
