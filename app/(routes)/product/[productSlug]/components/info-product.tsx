@@ -90,7 +90,7 @@ const InfoProduct = (props: InfoProductProps) => {
 
   // En caso de que el producto no tenga variantes por alguna razón, podríamos tener un fallback.
   // Pero en el nuevo schema, todo debe venir en variantes.
-  const displayPrice = selectedVariant ? selectedVariant.price : 0;
+  const displayPrice = selectedVariant?.price || 0;
   const includes = selectedVariant?.includes ? parseIncludesToList(selectedVariant.includes) : null;
 
   return (
@@ -123,8 +123,8 @@ const InfoProduct = (props: InfoProductProps) => {
                 key={variant.id}
                 onClick={() => setSelectedVariantId(variant.id)}
                 className={`px-5 py-2.5 rounded-xl font-bold text-sm border-2 transition-all duration-200 ${selectedVariantId === variant.id
-                    ? "bg-black text-white border-black shadow-md scale-[1.02]"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                  ? "bg-black text-white border-black shadow-md scale-[1.02]"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                   }`}
               >
                 {variant.name}
