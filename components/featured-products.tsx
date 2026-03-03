@@ -43,7 +43,8 @@ const FeaturedProducts = () => {
                   <div className="p-1 h-full">
                     <Card className="py-4 border border-gray-200 shadow-none flex flex-col h-full">
 
-                      <CardContent className="relative flex items-center justify-center px-6 py-2 min-h-[240px] flex-shrink-0">
+                      {/* 3. Reducimos el height un poco, añadimos m-2 y rounded-xl para que no se vea cuadrado */}
+                      <CardContent className="relative flex items-center justify-center px-4 py-2 min-h-[220px] m-2 rounded-xl bg-gray-50/50 flex-shrink-0">
                         {images && images.length > 0 ? (
                           <img
                             src={getMediaUrl(images[0].url)}
@@ -71,7 +72,8 @@ const FeaturedProducts = () => {
                         </div>
                       </CardContent>
 
-                      <div className="flex flex-col flex-grow px-8 space-y-2 pb-2">
+                      {/* 4. flex-grow hace que este contenedor ocupe todo el espacio sobrante hacia abajo. Reduce padding para juntar textos. */}
+                      <div className="flex flex-col flex-grow px-6 space-y-1 pb-2">
                         <h3 className="text-base font-bold text-gray-900 line-clamp-2 min-h-[3rem]">
                           {productName}
                         </h3>

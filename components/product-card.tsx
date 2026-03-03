@@ -26,8 +26,8 @@ const ProductCard = (props: ProductCardProps) => {
       {/* 2. flex flex-col h-full permite que la tarjeta estire sus elementos internos */}
       <Card className="border border-gray-100 shadow-none rounded-xl overflow-hidden bg-white flex flex-col h-full">
 
-        {/* 3. Aumentamos a min-h-[240px] para dar más verticalidad a la imagen */}
-        <CardContent className="relative flex items-center justify-center p-4 min-h-[240px] bg-gray-50/50 flex-shrink-0">
+        {/* 3. Reducimos el height un poco, añadimos m-2 y rounded-xl para que no se vea cuadrado */}
+        <CardContent className="relative flex items-center justify-center p-4 min-h-[220px] bg-gray-50/50 m-2 rounded-xl flex-shrink-0">
 
           {product.images && product.images.length > 0 ? (
             <img
@@ -61,8 +61,8 @@ const ProductCard = (props: ProductCardProps) => {
           </div>
         </CardContent>
 
-        {/* 4. flex-grow hace que este contenedor ocupe todo el espacio sobrante hacia abajo */}
-        <div className="px-5 py-6 space-y-2 flex flex-col flex-grow">
+        {/* 4. flex-grow hace que este contenedor ocupe todo el espacio sobrante hacia abajo. Reducimos py a 4 para menor gap. */}
+        <div className="px-5 py-4 space-y-2 flex flex-col flex-grow">
 
           {/* 5. text-base (más chico), min-h-[3rem] (fuerza la altura de 2 líneas) y line-clamp-2 */}
           <h3 className="text-base font-bold text-gray-900 line-clamp-2 min-h-[3rem]">
