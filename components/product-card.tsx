@@ -3,8 +3,9 @@
 
 import Link from "next/link";
 import { ProductType } from "@/types/product";
-import { Expand, MessageCircle } from "lucide-react";
+import { Expand, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLovedProducts } from "@/hooks/use-loved-products";
 import IconButton from "./icon-button";
 import { Card, CardContent } from "./ui/card";
 import { getMediaUrl } from "@/lib/getMediaUrl";
@@ -16,6 +17,8 @@ type ProductCardProps = {
 const ProductCard = (props: ProductCardProps) => {
   const { product } = props;
   const router = useRouter();
+  const { toggleLoveItem, lovedItems } = useLovedProducts();
+  const isLoved = lovedItems.some((item) => item.id === product.id);
 
   return (
     <Link
@@ -33,7 +36,7 @@ const ProductCard = (props: ProductCardProps) => {
             <img
               src={getMediaUrl(product?.images?.[0]?.url)}
               alt={product.productName}
-              className="max-h-[190px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className="max-h-[190px] w-auto rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
             <div className="w-full h-[190px] bg-gray-100 flex items-center justify-center rounded-md">
@@ -53,9 +56,14 @@ const ProductCard = (props: ProductCardProps) => {
               <IconButton
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/product/${product.slug}`);
+                  toggleLoveItem(product);
                 }}
-                icon={<MessageCircle size={20} className="text-gray-600" />}
+                icon={
+                  <Heart
+                    size={20}
+                    className={isLoved ? "fill-red-500 text-red-500" : "text-gray-600"}
+                  />
+                }
               />
             </div>
           </div>

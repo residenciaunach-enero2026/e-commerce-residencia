@@ -13,15 +13,16 @@ import {
 import SkeletonSchema from "./skeletonSchema";
 import { ProductType } from "@/types/product";
 import { Card, CardContent } from "./ui/card";
-import { Expand, MessageCircle } from "lucide-react"; // <-- 1. Cambiamos ShoppingCart por MessageCircle
+import { Expand, Heart } from "lucide-react";
 import IconButton from "./icon-button";
 import { useRouter } from "next/navigation";
+import { useLovedProducts } from "@/hooks/use-loved-products";
 // 2. Eliminamos la importación de useCart porque ya no lo necesitamos
 
 const FeaturedProducts = () => {
   const { result, loading }: ResponseType = useGetFeaturedProducts();
   const router = useRouter();
-  // 3. Eliminamos la inicialización de useCart()
+  const { toggleLoveItem, lovedItems } = useLovedProducts();
 
   return (
     <div className="max-w-6xl py-4 mx-auto sm:py-16 sm:px-24">
@@ -34,6 +35,7 @@ const FeaturedProducts = () => {
           {result !== null &&
             result.slice(0, 10).map((product: ProductType) => {
               const { id, slug, images, productName, subtitle } = product;
+              const isLoved = lovedItems.some((item) => item.id === product.id);
 
               return (
                 <CarouselItem
@@ -49,7 +51,7 @@ const FeaturedProducts = () => {
                           <img
                             src={getMediaUrl(images[0].url)}
                             alt={productName}
-                            className="max-h-[190px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                            className="max-h-[190px] w-auto rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
                           />
                         ) : (
                           <div className="w-full h-[190px] bg-gray-100 flex items-center justify-center rounded-md">
@@ -63,10 +65,14 @@ const FeaturedProducts = () => {
                               onClick={() => router.push(`product/${slug}`)}
                               icon={<Expand size={20} className="text-gray-600" />}
                             />
-                            {/* 4. Reemplazamos el botón del carrito por este que lleva a detalles */}
                             <IconButton
-                              onClick={() => router.push(`product/${slug}`)}
-                              icon={<MessageCircle size={20} className="text-gray-600" />}
+                              onClick={() => toggleLoveItem(product)}
+                              icon={
+                                <Heart
+                                  size={20}
+                                  className={isLoved ? "fill-red-500 text-red-500" : "text-gray-600"}
+                                />
+                              }
                             />
                           </div>
                         </div>
