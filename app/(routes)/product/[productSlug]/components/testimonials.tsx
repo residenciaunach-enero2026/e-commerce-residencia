@@ -56,10 +56,8 @@ export default function Testimonials() {
                     ))}
                 </CarouselContent>
 
-                <div className="flex items-center justify-center gap-4 mt-8 hidden sm:flex">
-                    <CarouselPrevious className="static translate-y-0 translate-x-0 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
-                    <CarouselNext className="static translate-y-0 translate-x-0 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
-                </div>
+                <CarouselPrevious className="hidden md:flex -left-12 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
+                <CarouselNext className="hidden md:flex -right-12 h-12 w-12 hover:bg-gray-100 hover:text-black border-2 border-gray-200" />
             </Carousel>
         </div>
     );

@@ -107,6 +107,7 @@ export default function WhatsAppModal({
           sm:max-w-[640px]
           max-h-[90vh]
           overflow-y-auto
+          [&::-webkit-scrollbar]:hidden
           rounded-3xl
           border-0
           bg-white
