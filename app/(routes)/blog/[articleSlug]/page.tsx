@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft, Calendar, User, Clock } from "lucide-react";
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import { ArticleType } from "@/types/article";
+import WhatsAppModal from "@/components/whatsapp-modal";
 
 export default function ArticlePage() {
   const params = useParams();
@@ -158,9 +159,11 @@ export default function ArticlePage() {
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto text-lg">
               No dejes el mantenimiento de tu Volkswagen para después. Alarga la vida de tu motor ahorrando dinero en reparaciones.
             </p>
-            <Link href="/" className={buttonVariants({ size: "lg", className: "w-full sm:w-auto px-10 py-7 text-lg font-bold shadow-xl hover:-translate-y-1 transition-transform" })}>
-              Agendar Revisión Directo al Taller
-            </Link>
+            <WhatsAppModal
+              buttonText="Agendar Revisión por WhatsApp"
+              buttonClasses="w-full sm:w-auto bg-gray-900 hover:bg-black text-white px-8 py-3 rounded-full font-semibold transition-all shadow-md"
+              selectedVariantName={tituloFinal}
+            />
           </div>
         </div>
 
